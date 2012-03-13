@@ -56,6 +56,12 @@ class defaultController extends appController
 		return render( $data );
 	}
 	
+	function sql()
+	{
+		db();
+		echo $sql = prepare( "SELECT * FROM `user` WHERE `name` = ?s AND `uid` = ?i AND `level` = ?s LIMIT 1" , array( "Easy'" , '-1', '9.56' ) );	
+	}
+	
 	
 }
 	

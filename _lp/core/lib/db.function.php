@@ -9,16 +9,14 @@ function s( $str , $db = NULL )
 	
 }
 
-// $sql = "SELECT * FROM `user` WHERE `name` = '?s' AND `id` = '?i' LIMIT 1 "
-function prepare( $sql , $array , $db = NULL )
+// $sql = "SELECT * FROM `user` WHERE `name` = ?s AND `id` = ?i LIMIT 1 "
+function prepare( $sql , $array )
 {
-	if( $db == NULL ) $db = db();
 	
 	foreach( $array as $k=>$v )
-		$array[$k] = "'".s($v , $db )."'";
+		$array[$k] = s($v );
 	
-	
-	$reg = '/\?[is]/i';
+	$reg = '/\?([is])/i';
 	$sql = preg_replace_callback( $reg , 'prepair_string' , $sql  );
 	$count = count( $array );
 	for( $i = 0 ; $i < $count; $i++ )
@@ -27,7 +25,6 @@ function prepare( $sql , $array , $db = NULL )
 	}
 	
 	$statement = '$sql = sprintf( $sql , ' . join( ',' , $str ) . ' );';
-	
 	eval( $statement );
 	return $sql;
 	
@@ -35,11 +32,8 @@ function prepare( $sql , $array , $db = NULL )
 
 function prepair_string( $matches )
 {
-	foreach( $matches as $m )
-	{
-		if( $m == '?s' ) return '%s';
-		if( $m == '?i' ) return '%d';
-	}
+	if( $matches[1] == 's' ) return "'%s'";
+	if( $matches[1] == 'i' ) return "'%d'";	
 }
 
 

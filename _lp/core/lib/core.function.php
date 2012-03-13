@@ -58,13 +58,13 @@ function render( $data = NULL , $layout = NULL , $style = 'default' )
 {
 	if( $layout == null )
 	{
-		if( is_mobile_request() )
-		{
-			$layout = 'mobile';
-		}
-		elseif( is_ajax_request() )
+		if( is_ajax_request() )
 		{
 			$layout = 'ajax';
+		}
+		elseif( is_mobile_request() )
+		{
+			$layout = 'mobile';
 		}
 		else
 		{
@@ -218,7 +218,9 @@ function load( $file_path )
 
 function db( $host = null , $port = null , $user = null , $password = null , $db_name = null )
 {
-	if( !isset( $GLOBALS['LP_DB'] ) )
+	$db_key = MD5( $host .'-'. $port .'-'. $user .'-'. $password .'-'. $db_name  );
+	
+	if( !isset( $GLOBALS['LP_'.$db_key] ) )
 	{
 		include_once( AROOT .  'config/db.config.php' );
 		include_once( CROOT .  'lib/db.function.php' );
@@ -231,7 +233,7 @@ function db( $host = null , $port = null , $user = null , $password = null , $db
 		if( $password == null ) $password = $db_config['db_password'];
 		if( $db_name == null ) $db_name = $db_config['db_name'];
 		
-		if( !$GLOBALS['LP_DB'] = mysql_connect( $host.':'.$port , $user , $password , true ) )
+		if( !$GLOBALS['LP_'.$db_key] = mysql_connect( $host.':'.$port , $user , $password , true ) )
 		{
 			//
 			echo 'can\'t connect to database';
@@ -241,7 +243,7 @@ function db( $host = null , $port = null , $user = null , $password = null , $db
 		{
 			if( $db_name != '' )
 			{
-				if( !mysql_select_db( $db_name , $GLOBALS['LP_DB'] ) )
+				if( !mysql_select_db( $db_name , $GLOBALS['LP_'.$db_key] ) )
 				{
 					echo 'can\'t select database ' . $db_name ;
 					return false;
@@ -249,10 +251,10 @@ function db( $host = null , $port = null , $user = null , $password = null , $db
 			}
 		}
 		
-		mysql_query( "SET NAMES 'UTF8'" , $GLOBALS['LP_DB'] );
+		mysql_query( "SET NAMES 'UTF8'" , $GLOBALS['LP_'.$db_key] );
 	}
 	
-	return $GLOBALS['LP_DB'];
+	return $GLOBALS['LP_'.$db_key];
 }
 
 
