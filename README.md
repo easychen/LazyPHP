@@ -113,7 +113,7 @@ require( $layout_file );
 这样很OK，但是当我们有10个模板要处理的时候，你会发现每个模板都要去include header和footer。而在这些模板中，header和footer其实是不变的，变的是中间的部分。
 
 于是我们为这些相同模板建立一个通用的模板文件，叫做styleA.tpl.html，在styleA中我们指定好header和footer，然后styleA根据FC接收到的C和A变量（还记得吧）去加载对应子目录下模板。这样我们只需要创建C和A对应的模板就可以了。下边是一个典型的style模板。
-```html
+```php
 <html>
 <body>
 <div id=”hd” ><?php @include_once( dirname(__FILE__) ) . DS . ‘header.tpl.html’; ?></div>
