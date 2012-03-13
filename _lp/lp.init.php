@@ -29,11 +29,11 @@ $a =  basename(strtolower( z($a) ));
 
 $post_fix = '.class.php';
 
-$cont_file = AROOT . 'c'  . DS . $c . DS  .  $a . $post_fix;
+$cont_file = AROOT . 'controller'  . DS . $c . DS  .  $a . $post_fix;
 $class_name =$c . ucfirst($a) .'Controller' ; 
 if( !file_exists( $cont_file ) )
 {
-	$cont_file = AROOT . 'controller' . DS . $c . $post_fix;
+	$cont_file = CROOT . 'controller' . DS . $c . $post_fix;
 	$class_name = $c .'Controller';
 
 	if( !file_exists( $cont_file ) ) die('Can\'t find controller file - ' . $c . DS . $a . $post_fix . ' OR ' . $c . $post_fix );

@@ -258,33 +258,3 @@ function db( $host = null , $port = null , $user = null , $password = null , $db
 }
 
 
-/*
-
-function get_cname( $full_contrlloer_name )
-{
-	return str_replace( 'controller' , '' , strtolower( $full_contrlloer_name )  );
-}
-
-function query_string( $params , $name=null ) 
-{ 
-	$ret = ""; 
-	foreach($params as $key=>$val) 
-	{ 
-		if(is_array($val)) 
-		{ 
-			if($name==null) 
-				$ret .= query_string($val, $key); 
-			else 
-				$ret .= query_string($val, $name."[$key]");    
-		} 
-		else
-		{ 
-			if($name!=null) 
-				$ret.=$name."[$key]"."=$val&"; 
-			else
-				$ret.= "$key=$val&"; 
-		} 
-	} 
-	return $ret;    
-}
-*/
