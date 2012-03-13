@@ -180,6 +180,7 @@ return get_line( “SELECT `name` ,`email` , `bod` FROM `user` WHERE `uid` = ”
 ```
 
 user.function.php将在请求参数包含?c=user 时自动加载。所以我们可以把show改为下边的样子：
+
 ```php
 function show()
 
@@ -205,22 +206,27 @@ LP3中的函数主要有3类，迅捷函数，功能函数和数据库函数，�
 
 迅捷函数是一系列的函数缩写：
 
+<code>
 function c( $str ) // 读取配置文件中$str为key的对应的value
 function v( $str ) // 取得 $_REQUEST[$str] 的数据，不存在不会报warning
 function z( $str ) // strip_tags
 function g( $str ) // 取得 $GLOBALS[$str] 的数据
 function t( $str ) // trim
 function u( $str ) // urlencode
+</code>
 
 ### 功能性函数
 
+<code>
 function render( $data = NULL , $layout = NULL , $style = ‘default’ ) // Layout
 function info_page( $info ) // 系统提示信息
 function ajax_echo( $info ) // 输出提示信息，包含永不过期的header
 function uses( $file ); // 载入lib目录下的文件
+</code>
 
 ### 数据库函数
 
+<code>
 function s( $str , $db = NULL ) // mysql_real_escape_string
 function prepare( $sql , $array ) // 将数组中的变量顺序替换SQL中的？
 function db() // 使用config目录下的数据库设置,创建并返回数据库链接
@@ -232,6 +238,7 @@ function run_sql( $sql , $db = NULL ) // 运行sql,不返回结果集
 function db_error() // 数据库错误信息
 function db_errno() // 数据库错误编号
 function close_db( $db ) // 显式关闭数据库链接
+</code>
 
 ### 特别说明
 
@@ -245,11 +252,15 @@ LP将应用配置信息保存在AROOT/config/app.config.php下，使用$GLOBALS[
 
 这个函数是LP3新引入的，主要是希望减少SQL注入的问题。使用方式如下：
 
+<code>
 echo $sql = prepare( “SELECT * FROM `user` WHERE `name` = ?s AND `uid` = ?i AND `level` = ?s LIMIT 1″ , array( “Easy’” , ‘-1′, ’9.56′ ) );
+</code>
 
 输出结果为：
 
+<code>
 SELECT * FROM `user` WHERE `name` = ‘Easy\” AND `uid` = ‘-1′ AND `level` = ’9.56′ LIMIT 1
+</code>
 
 使用prepare函数时要注意：SQL必须使用双引号，【?i】表示整数，【?s】表示整数以外的其他值。prepare会无例外的mysql_real_escape_string，然后在两边加上单引号。
 
