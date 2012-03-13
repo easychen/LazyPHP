@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title><?=$top_title . '|' . c('site_name') ?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="http://lib.sinaapp.com/js/yui/3.4.1/css/cssreset-min.css" type="text/css">
+<link rel="stylesheet" href="http://lib.sinaapp.com/js/yui/3.4.1/css/cssfonts-min.css" type="text/css">
+<link rel="stylesheet" href="http://lib.sinaapp.com/js/yui/3.4.1/css/cssbase-min.css" type="text/css">
+<link rel="stylesheet" href="http://lib.sinaapp.com/js/yui/3.4.1/css/grids-min.css" type="text/css" >
+<link rel="stylesheet" href="static/css/style.css" type="text/css" >
+<?php if( isset($css) && is_array( $css ) ): ?>
+        <?php foreach( $css as $cfile ): ?><link rel="stylesheet" type="text/css" href="static/css/<?=$cfile?>">
+        <?php endforeach; ?>
+<?php endif; ?>
+<style>
+body
+{
+	margin: auto; /* center in viewport */
+	width: 960px;
+}
+
+#main
+{
+	width:960px;
+	padding:20px;
+}
+
+
+</style>	
+<script src="http://lib.sinaapp.com/js/jquery/1.7/jquery.min.js"></script>
+<?php if( isset($js) && is_array( $js ) ): ?>
+        <?php foreach( $js as $jfile ): ?><script type="text/javascript" src="static/script/<?=$jfile;?>" ></script>
+        <?php endforeach; ?>
+<?php endif; ?>
+<script src="static/script/app.js"></script>
+</head>
+<body>
+<div id="hd" ><?php @include_once( dirname(__FILE__) ) . DS . 'header.tpl.html'; ?></div>
+
+<div  id="bd" class="yui3-g">
+        <div class="yui3-u" id="main">
+			<h2><?=$title?></h2>
+			<?=$info; ?>
+       </div>
+    </div>
+</div>
+<div id="ft"><?php @include_once( dirname(__FILE__) ) . DS . 'footer.tpl.html'; ?></div>
+	
+</body>
+</html>

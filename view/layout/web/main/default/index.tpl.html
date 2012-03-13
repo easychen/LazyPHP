@@ -1,0 +1,28 @@
+<div class="cbox x2">
+<p>LazyPHP是一个超轻量级的开发框架。LazyPHP3是一个全新的版本，不再和以前的版本兼容。<a href="http://ftqq.com/lazyphp/" target="_blank">LP3的详细文档</a></p>
+<p>
+<div id="iii"><a href="javascript:loadit()">点我通过Ajax加载页面</a></div>
+</p>
+
+<p><a href="?a=test" target="_blank">通过Web请求test Action</a></p>
+
+<form action="?a=test" id="theform">
+<input type="text" name="user" value="LazyPHP" />
+<input type="button" value="通过Ajax请求test Action（弹窗）" onclick="send_form_pop( 'theform' )" />
+</form>
+<form action="?a=ajax_test" id="theform2">
+<input type="text" name="user" value="LazyPHP" />
+<input type="button" value="通过Ajax提交form，form内显示提示" onclick="send_form_in( 'theform2' )" />
+</form>
+<p>&nbsp;</p><p>Rest Layout <a href="?a=rest" target="_blank">正确返回值</a> - <a href="?a=rest&o=1" target="_blank">错误返回值</a></p>
+<p><a href="?a=mobile" target="_blank">移动Layout</a></p>
+
+<p>&nbsp;</p>
+<p>你可以通过view/layout/web/main/default/index.tpl.html 修改本页面内容</p>
+</div>
+<script>
+function loadit()
+{
+	$("#iii").load( '?a=ajax_load' );
+}
+</script>
