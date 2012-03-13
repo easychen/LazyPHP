@@ -113,7 +113,7 @@ require( $layout_file );
 这样很OK，但是当我们有10个模板要处理的时候，你会发现每个模板都要去include header和footer。而在这些模板中，header和footer其实是不变的，变的是中间的部分。
 
 于是我们为这些相同模板建立一个通用的模板文件，叫做styleA.tpl.html，在styleA中我们指定好header和footer，然后styleA根据FC接收到的C和A变量（还记得吧）去加载对应子目录下模板。这样我们只需要创建C和A对应的模板就可以了。下边是一个典型的style模板。
-
+<pre>
 &lt;html&gt;
 &lt;body&gt;
 &lt;div id="hd" &gt;&lt;?php @include_once( dirname(__FILE__) ) . DS . 'header.tpl.html'; ?&gt;&lt;/div&gt;
@@ -136,7 +136,7 @@ include( AROOT . 'view' . DS . 'layout' . DS . g('layout') . DS . 'main' . DS . 
 
 &lt;/body&gt;
 &lt;/html&gt;
- 
+</pre> 
 
 当一个style满足不了需求时，我们可以再创建styleB.tpl.html。styleB可以选择性的共享styleA的header和footer，也可以载入自己特定的header。我们把styleA，styleB…等通用模板放到一个目录下，叫做一个Layout。
 
@@ -145,6 +145,7 @@ include( AROOT . 'view' . DS . 'layout' . DS . g('layout') . DS . 'main' . DS . 
 切换Style和Layout非常简单，只需要修改Render函数中第二和第三个参数就可以了。在没有指定的情况下，LP3会启用Layout下的default style模板，同时还会根据请求的方式，自动加载Web，Mobile或者Ajax Layout。
 
 再回过头来说MVC，我们已经了解了C和V在LP的使用。而M就是根据请求参数，从数据库或者其他地方取得数据的过程。在LP3之前，数据是直接在Controller中查询数据库取得的。
+
 ```php
 function show()
 
@@ -159,6 +160,7 @@ $data['user'] = get_line( “SELECT * FROM `user` WHERE `uid` = ‘” . $uid . 
 render( $data );
 
 }
+
 ```
 
 这种方式将SQL散落在各个Action中，不利于重用和修改。所以在LP3中，我们采用专门的model文件来放置Controller中用到的数据操作函数。还是用上边的例子，我们假设这是一个名为User的Controller的Show Action。那么在LP3中我们推荐的做法如下：
