@@ -278,24 +278,20 @@ function _( $string , $data = null )
 	
 	//print_r( $GLOBALS['language'][$GLOBALS['i18n']] );
 	
+	
+	
 	if( isset( $GLOBALS['language'][$GLOBALS['i18n']][$string] ) )
-	{
-		if( $data == null )
-		{
-			return $GLOBALS['language'][$GLOBALS['i18n']][$string];
-		}
-		else
-		{
-			if( !is_array( $data ) ) $data = array( $data );
-			return vsprintf( $GLOBALS['language'][$GLOBALS['i18n']][$string] , $data );
-		}
-		
-	}
+		$to = $GLOBALS['language'][$GLOBALS['i18n']][$string];
+	else
+		$to = $string;
+	
+	if( $data == null )
+		return $to;
 	else
 	{
-		return $string;
-	}
-		
+		if( !is_array( $data ) ) $data = array( $data );
+		return vsprintf( $to , $data );
+	}	
 	
 	
 	

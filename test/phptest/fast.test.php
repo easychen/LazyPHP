@@ -49,6 +49,7 @@ class TestOfFastfunction extends UnitTestCase
 		$this->assertEqual( _('login') , '登入' );
 		$this->assertEqual( _('hello%s' , 'Aoi') , '你好Aoi' );
 		$this->assertEqual( _('Not exists' ) , 'Not exists' );
+		$this->assertEqual( _('Not exists %s' , 'Money'  ) , 'Not exists Money' );
 		
 	}
 	
