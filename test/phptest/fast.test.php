@@ -44,6 +44,14 @@ class TestOfFastfunction extends UnitTestCase
 		$this->assertEqual( u('?c=user&a=login') , '%3Fc%3Duser%26a%3Dlogin' );
 	}
 	
+	public function test_text()
+	{
+		$this->assertEqual( _('login') , '登入' );
+		$this->assertEqual( _('hello%s' , 'Aoi') , '你好Aoi' );
+		$this->assertEqual( _('Not exists' ) , 'Not exists' );
+		
+	}
+	
 	// render
 	// ajax_echo 
 	// info_page

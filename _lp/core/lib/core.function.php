@@ -261,4 +261,44 @@ function db( $host = null , $port = null , $user = null , $password = null , $db
 	return $GLOBALS['LP_'.$db_key];
 }
 
+function _( $string , $data = null )
+{
+	if( !isset($GLOBALS['i18n']) )
+	{
+		$c = c('default_language');
+		if( strlen($c) < 1 ) $c = 'zh_cn';
+		
+		$lang_file = AROOT . 'local' . DS . basename($c) . '.lang.php';
+		if( file_exists( $lang_file ) )
+		{
+			include_once( $lang_file );
+			$GLOBALS['i18n'] = 'zh_cn';
+		}
+	}
+	
+	//print_r( $GLOBALS['language'][$GLOBALS['i18n']] );
+	
+	if( isset( $GLOBALS['language'][$GLOBALS['i18n']][$string] ) )
+	{
+		if( $data == null )
+		{
+			return $GLOBALS['language'][$GLOBALS['i18n']][$string];
+		}
+		else
+		{
+			if( !is_array( $data ) ) $data = array( $data );
+			return vsprintf( $GLOBALS['language'][$GLOBALS['i18n']][$string] , $data );
+		}
+		
+	}
+	else
+	{
+		return $string;
+	}
+		
+	
+	
+	
+}
+
 
