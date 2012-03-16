@@ -54,7 +54,7 @@ function u( $str )
 }
 
 // render functiones
-function render( $data = NULL , $layout = NULL , $style = 'default' )
+function render( $data = NULL , $layout = NULL , $sharp = 'default' )
 {
 	if( $layout == null )
 	{
@@ -73,9 +73,9 @@ function render( $data = NULL , $layout = NULL , $style = 'default' )
 	}
 	
 	$GLOBALS['layout'] = $layout;
-	$GLOBALS['style'] = $style;
+	$GLOBALS['sharp'] = $sharp;
 	
-	$layout_file = AROOT . 'view/layout/' . $layout . '/' . $style . '.tpl.html';
+	$layout_file = AROOT . 'view/layout/' . $layout . '/' . $sharp . '.tpl.html';
 	if( file_exists( $layout_file ) )
 	{
 		@extract( $data );
@@ -83,7 +83,7 @@ function render( $data = NULL , $layout = NULL , $style = 'default' )
 	}
 	else
 	{
-		$layout_file = CROOT . 'view/layout/' . $layout . '/' . $style .  '.tpl.html';
+		$layout_file = CROOT . 'view/layout/' . $layout . '/' . $sharp .  '.tpl.html';
 		if( file_exists( $layout_file ) )
 		{
 			@extract( $data );

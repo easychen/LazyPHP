@@ -112,7 +112,7 @@ require( $layout_file );
 
 这样很OK，但是当我们有10个模板要处理的时候，你会发现每个模板都要去include header和footer。而在这些模板中，header和footer其实是不变的，变的是中间的部分。
 
-于是我们为这些相同模板建立一个通用的模板文件，叫做styleA.tpl.html，在styleA中我们指定好header和footer，然后styleA根据FC接收到的C和A变量（还记得吧）去加载对应子目录下模板。这样我们只需要创建C和A对应的模板就可以了。下边是一个典型的style模板。
+于是我们为这些相同模板建立一个通用的模板文件，叫做sharpA.tpl.html，在styleA中我们指定好header和footer，然后sharpA根据FC接收到的C和A变量（还记得吧）去加载对应子目录下模板。这样我们只需要创建C和A对应的模板就可以了。下边是一个典型的sharp模板。
 <pre>
 &lt;html&gt;
 &lt;body&gt;
@@ -138,11 +138,11 @@ include( AROOT . 'view' . DS . 'layout' . DS . g('layout') . DS . 'main' . DS . 
 &lt;/html&gt;
 </pre> 
 
-当一个style满足不了需求时，我们可以再创建styleB.tpl.html。styleB可以选择性的共享styleA的header和footer，也可以载入自己特定的header。我们把styleA，styleB…等通用模板放到一个目录下，叫做一个Layout。
+当一个sharp满足不了需求时，我们可以再创建sharpB.tpl.html。styleB可以选择性的共享sharpA的header和footer，也可以载入自己特定的header。我们把sharpA，sharpB…等通用模板放到一个目录下，叫做一个Layout。
 
-目前Layout按照访问方式分为Web，Ajax，Mobile和Rest四种。当你为你的游戏机或者电视机创建一组特定风格的style模板时，你可以创建一个名叫TV或者PFP的Layout目录。
+目前Layout按照访问方式分为Web，Ajax，Mobile和Rest四种。当你为你的游戏机或者电视机创建一组特定风格的sharp模板时，你可以创建一个名叫TV或者PFP的Layout目录。
 
-切换Style和Layout非常简单，只需要修改Render函数中第二和第三个参数就可以了。在没有指定的情况下，LP3会启用Layout下的default style模板，同时还会根据请求的方式，自动加载Web，Mobile或者Ajax Layout。
+切换Sharp和Layout非常简单，只需要修改Render函数中第二和第三个参数就可以了。在没有指定的情况下，LP3会启用Layout下的default sharp模板，同时还会根据请求的方式，自动加载Web，Mobile或者Ajax Layout。
 
 再回过头来说MVC，我们已经了解了C和V在LP的使用。而M就是根据请求参数，从数据库或者其他地方取得数据的过程。在LP3之前，数据是直接在Controller中查询数据库取得的。
 
