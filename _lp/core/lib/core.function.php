@@ -220,46 +220,11 @@ function load( $file_path )
 	
 }
 
-function db( $host = null , $port = null , $user = null , $password = null , $db_name = null )
-{
-	$db_key = MD5( $host .'-'. $port .'-'. $user .'-'. $password .'-'. $db_name  );
-	
-	if( !isset( $GLOBALS['LP_'.$db_key] ) )
-	{
-		include_once( AROOT .  'config/db.config.php' );
-		include_once( CROOT .  'lib/db.function.php' );
-		
-		$db_config = $GLOBALS['config']['db'];
-		
-		if( $host == null ) $host = $db_config['db_host'];
-		if( $port == null ) $port = $db_config['db_port'];
-		if( $user == null ) $user = $db_config['db_user'];
-		if( $password == null ) $password = $db_config['db_password'];
-		if( $db_name == null ) $db_name = $db_config['db_name'];
-		
-		if( !$GLOBALS['LP_'.$db_key] = mysql_connect( $host.':'.$port , $user , $password , true ) )
-		{
-			//
-			echo 'can\'t connect to database';
-			return false;
-		}
-		else
-		{
-			if( $db_name != '' )
-			{
-				if( !mysql_select_db( $db_name , $GLOBALS['LP_'.$db_key] ) )
-				{
-					echo 'can\'t select database ' . $db_name ;
-					return false;
-				}
-			}
-		}
-		
-		mysql_query( "SET NAMES 'UTF8'" , $GLOBALS['LP_'.$db_key] );
-	}
-	
-	return $GLOBALS['LP_'.$db_key];
-}
+// ===========================================
+// load db functions
+// ===========================================
+include_once( CROOT .  'lib/db.function.php' );
+
 
 function _( $string , $data = null )
 {
@@ -292,9 +257,7 @@ function _( $string , $data = null )
 		if( !is_array( $data ) ) $data = array( $data );
 		return vsprintf( $to , $data );
 	}	
-	
-	
-	
+		
 }
 
 
