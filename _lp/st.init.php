@@ -32,7 +32,7 @@ foreach( glob( AROOT . 'test'. DS .'phptest' . DS . '*.test.php' ) as $f )
 	$test->addFile( $f );
 
 
-$test->run(new HtmlReporter('UTF-8'));
+//$test->run(new HtmlReporter('UTF-8'));
 unset( $test );
 
 

@@ -29,10 +29,15 @@
 
 .form_notice
 {
-	background: #ffcccc;
 	padding:5px;
 	margin:5px;
 	margin-left:0px;
+	margin-top:0px;
+}
+
+.front-page h1
+{
+	margin-bottom: 10px;
 }
 
 #lp_pop_box

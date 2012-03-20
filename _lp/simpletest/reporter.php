@@ -114,7 +114,7 @@ class HtmlReporter extends SimpleReporter {
         $breadcrumb = $this->getTestList();
         array_shift($breadcrumb);
         print implode(" -&gt; ", $breadcrumb);
-        print " -&gt; " . $this->htmlEntities($message) . "<br />\n";
+        print " -&gt; " . $this->htmlEntities($message) . '<div ><pre style="padding:10px">' . print_r(g('st-content'),1) . '</pre></div>' . "<br />\n";
     }
 
     /**

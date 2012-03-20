@@ -35,6 +35,8 @@ function send_form_in( name )
 
 function set_form_notice( name , data )
 {
+	data = '<span class="label label-important">' + data + '</span>';
+	
 	if( $('#form_'+name+'_notice').length != 0 )
 	{
 		$('#form_'+name+'_notice').html(data);

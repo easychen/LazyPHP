@@ -48,6 +48,16 @@ class defaultController extends appController
 		return ajax_echo('Hello ' . date("Y-m-d H:i:s"));
 	}
 	
+	function about()
+	{
+		return info_page( "ftqq.com 荣誉出品" , "About" );
+	}
+	
+	function contact()
+	{
+		return info_page( "Sina Weibo - <a href='http://weibo.com/easy' target='_blank'>@Easy</a> |  Twitter - @Easychen" , "Follow Me" );
+	}
+	
 	function test()
 	{
 		$data['title'] = $data['top_title'] = '自动测试页';
