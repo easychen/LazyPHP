@@ -46,7 +46,7 @@ $a = $_REQUEST['a'] ;
 
 // controller文件名和Class名
 $cont_file = AROOT . ‘controller/’ . $c . ‘/’ . $a . ‘.class.php’;
-$class_name =$c . ucfirst($a) .’Controller’ ;
+$class_name =$c .’Controller’ ;
 
 // 载入文件
 require_once( $cont_file );
@@ -84,9 +84,9 @@ LP所有的模板都被放在AROOT.view下边，通过在Controller中使用Rend
 以下是Render函数的伪代码：
 
 ```php
-function render( $data = NULL , $layout = NULL , $style = ‘default’ )
+function render( $data = NULL , $layout = NULL , $sharp = ‘default’ )
 {
-$layout_file = AROOT . ‘view/layout/’ . $layout . ‘/’ . $style . ‘.tpl.html’;
+$layout_file = AROOT . ‘view/layout/’ . $layout . ‘/’ . $sharp . ‘.tpl.html’;
 @extract( $data );
 require( $layout_file );
 }
