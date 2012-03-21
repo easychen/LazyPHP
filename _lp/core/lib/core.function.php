@@ -223,8 +223,10 @@ function load( $file_path )
 // ===========================================
 // load db functions
 // ===========================================
-include_once( CROOT .  'lib/db.function.php' );
-
+if( defined('SAE_APPNAME') )
+	include_once( CROOT .  'lib/db.sae.function.php' );
+else
+	include_once( CROOT .  'lib/db.function.php' );
 
 function _( $string , $data = null )
 {

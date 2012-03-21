@@ -26,6 +26,9 @@
 <!--[if lt IE 9]>
       <script src="static/script/html5.js"></script>
 <![endif]-->
+<!--[if IE 6]>    
+    		<link href="static/css/ie6.min.css" rel="stylesheet">
+<![endif]-->
 </head>    
 <body>
  	<?php @include_once( dirname(__FILE__) ) . DS . 'header.tpl.html'; ?>  
@@ -42,12 +45,18 @@
     
     <script src="http://lib.sinaapp.com/js/jquery/1.7/jquery.min.js"></script>
     <script src="static/script/bootstrap.min.js"></script>
+    <!--[if IE 6]>    
+    		 <script src="static/script/ie6.min.js"></script>
+	<![endif]-->
+    
     <script src="static/script/app.js"></script>
+    
     
     <?php if( isset($js) && is_array( $js ) ): ?>
         <?php foreach( $js as $jfile ): ?><script type="text/javascript" src="static/script/<?=$jfile;?>" ></script>
         <?php endforeach; ?>
 	<?php endif; ?>
+	
    
 </body>
 </html>
