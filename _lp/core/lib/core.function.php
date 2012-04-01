@@ -228,38 +228,42 @@ if( defined('SAE_APPNAME') )
 else
 	include_once( CROOT .  'lib/db.function.php' );
 
-function _( $string , $data = null )
+if (!function_exists('_'))
 {
-	if( !isset($GLOBALS['i18n']) )
+	function _( $string , $data = null )
 	{
-		$c = c('default_language');
-		if( strlen($c) < 1 ) $c = 'zh_cn';
-		
-		$lang_file = AROOT . 'local' . DS . basename($c) . '.lang.php';
-		if( file_exists( $lang_file ) )
+		if( !isset($GLOBALS['i18n']) )
 		{
-			include_once( $lang_file );
-			$GLOBALS['i18n'] = 'zh_cn';
+			$c = c('default_language');
+			if( strlen($c) < 1 ) $c = 'zh_cn';
+			
+			$lang_file = AROOT . 'local' . DS . basename($c) . '.lang.php';
+			if( file_exists( $lang_file ) )
+			{
+				include_once( $lang_file );
+				$GLOBALS['i18n'] = 'zh_cn';
+			}
 		}
-	}
-	
-	//print_r( $GLOBALS['language'][$GLOBALS['i18n']] );
-	
-	
-	
-	if( isset( $GLOBALS['language'][$GLOBALS['i18n']][$string] ) )
-		$to = $GLOBALS['language'][$GLOBALS['i18n']][$string];
-	else
-		$to = $string;
-	
-	if( $data == null )
-		return $to;
-	else
-	{
-		if( !is_array( $data ) ) $data = array( $data );
-		return vsprintf( $to , $data );
-	}	
 		
-}
+		//print_r( $GLOBALS['language'][$GLOBALS['i18n']] );
+		
+		
+		
+		if( isset( $GLOBALS['language'][$GLOBALS['i18n']][$string] ) )
+			$to = $GLOBALS['language'][$GLOBALS['i18n']][$string];
+		else
+			$to = $string;
+		
+		if( $data == null )
+			return $to;
+		else
+		{
+			if( !is_array( $data ) ) $data = array( $data );
+			return vsprintf( $to , $data );
+		}	
+			
+	}
+} 	
+
 
 
