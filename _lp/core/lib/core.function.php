@@ -123,7 +123,7 @@ function info_page( $info , $title = '系统消息' )
 function is_ajax_request()
 {
 	$headers = apache_request_headers();
-	return isset( $headers['X-Requested-With'] ) && ( $headers['X-Requested-With'] == 'XMLHttpRequest' );
+	return (isset( $headers['X-Requested-With'] ) && ( $headers['X-Requested-With'] == 'XMLHttpRequest' )) || (isset( $headers['x-requested-with'] ) && ($headers['x-requested-with'] == 'XMLHttpRequest' ));
 }
 
 if (!function_exists('apache_request_headers')) 
