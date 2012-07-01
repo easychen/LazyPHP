@@ -241,8 +241,12 @@ if (!function_exists('_'))
 			if( file_exists( $lang_file ) )
 			{
 				include_once( $lang_file );
-				$GLOBALS['i18n'] = 'zh_cn';
+				$GLOBALS['i18n'] = $c;
 			}
+			else
+				$GLOBALS['i18n'] = 'zh_cn';
+			
+			
 		}
 		
 		//print_r( $GLOBALS['language'][$GLOBALS['i18n']] );
