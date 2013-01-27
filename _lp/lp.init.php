@@ -46,6 +46,7 @@ $o = new $class_name;
 if( !method_exists( $o , $a ) ) die('Can\'t find method - '   . $a . ' ');
 
 
-if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)  ob_start("ob_gzhandler");
+if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE && @ini_get("zlib.output_compression")) ob_start("ob_gzhandler");
 call_user_func( array( $o , $a ) );
+
 
