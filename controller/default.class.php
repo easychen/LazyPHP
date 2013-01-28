@@ -22,7 +22,7 @@ class defaultController extends appController
 	
 	function rest()
 	{
-		$data = array(  );
+		$data = array(	);
 		if( intval(v('o')) == 1 )
 		{
 			$data['code'] = 123;
@@ -55,7 +55,7 @@ class defaultController extends appController
 	
 	function contact()
 	{
-		return info_page( "Sina Weibo - <a href='http://weibo.com/easy' target='_blank'>@Easy</a> |  Twitter - @Easychen" , "Follow Me" );
+		return info_page( "Sina Weibo - <a href='http://weibo.com/easy' target='_blank'>@Easy</a> |	Twitter - @Easychen" , "Follow Me" );
 	}
 	
 	function test()
@@ -74,4 +74,3 @@ class defaultController extends appController
 	
 	
 }
-	

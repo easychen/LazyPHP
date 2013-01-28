@@ -12,7 +12,7 @@ LP在新浪大量使用已经将近3年，每天承载的请求达千万级别�
 LP3是LP最新的版本，最主要的调整是重新定义了Layout规则，以应对日益增多的Ajax，Mobile和Rest请求。同样是由于这个原因，LP3和之前的版本不兼容，我们建议大家在新项目中采用LP3。
 
 # LP3 实例
-基于LP3的全平台开源项目 团队效率工具 TeamToy  http://teamtoy.net/
+基于LP3的全平台开源项目 团队效率工具 TeamToy	http://teamtoy.net/
 
 # LP3简明教程
 
@@ -138,7 +138,7 @@ include( AROOT . 'view' . DS . 'layout' . DS . g('layout') . DS . 'main' . DS . 
 
 &lt;/body&gt;
 &lt;/html&gt;
-</pre> 
+</pre>
 
 当一个sharp满足不了需求时，我们可以再创建sharpB.tpl.html。styleB可以选择性的共享sharpA的header和footer，也可以载入自己特定的header。我们把sharpA，sharpB…等通用模板放到一个目录下，叫做一个Layout。
 
@@ -153,7 +153,7 @@ function show()
 
 {
 
-$uid =  intval($_REQUEST['uid']);
+$uid =	intval($_REQUEST['uid']);
 
 if( $uid < 1 ) return info_page(‘错误的uid’);
 
@@ -188,11 +188,11 @@ function show()
 
 {
 
-$uid =  intval($_REQUEST['uid']);
+$uid =	intval($_REQUEST['uid']);
 
 if( $uid < 1 ) return info_page(‘错误的uid’);
 
-$data['user'] = get_user_info_by_id(  $uid  );
+$data['user'] = get_user_info_by_id(	$uid	);
 
 render( $data );
 
@@ -274,11 +274,11 @@ JavaScript库上，LP3开始换为JQuery。这里是JQuery API的参考手册。
 为了方便不熟悉的同学也能使用好Ajax，LP3自己实现了Ajax传输数据的JS函数。这些函数都放在AROOT/static/script/app.js中。
 
 ```javascript
-$(‘#标签ID’).load(‘URL’);  // 是由JQuery自身实现的，可以方便的无刷新载入页面。
+$(‘#标签ID’).load(‘URL’);	// 是由JQuery自身实现的，可以方便的无刷新载入页面。
 
 send_form_in( ‘FROMID’ ); // 将form表单中的数据通过Ajax提交（file类型除外），并将服务器返回的HTML显示在Form表单顶部
 
-send_form_pop(‘FROMID’); //  将form表单中的数据通过Ajax提交（file类型除外），并将服务器返回的HTML显示在浮动图层中
+send_form_pop(‘FROMID’); //	将form表单中的数据通过Ajax提交（file类型除外），并将服务器返回的HTML显示在浮动图层中
 ```
 
 好了，这里就是关于LP3 的一切了，希望LP3能让你更快的完成工作。

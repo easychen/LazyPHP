@@ -9,12 +9,12 @@ class coreController
 	{
 		// load model functions
 		$model_function_file = AROOT . 'model' . DS . g('c') . '.function.php';
-		if( file_exists( $model_function_file ) )  
+		if( file_exists( $model_function_file ) )	
 			require_once( $model_function_file );
 		else
 		{
 			$cmodel = CROOT . 'model' . DS . g('c') . '.function.php';
-			if( file_exists( $cmodel ) )  require_once( $cmodel );
+			if( file_exists( $cmodel ) )	require_once( $cmodel );
 		}
 	}
 	

@@ -82,12 +82,12 @@ function hide_pop_box( popid )
 
 
 /* post demo
-$.post( 'url&get var'  , { 'post':'value'} , function( data )
+$.post( 'url&get var'	, { 'post':'value'} , function( data )
 {
 	var data_obj = jQuery.parseJSON( data );
-	console.log( data_obj  );
+	console.log( data_obj	);
 	
-	if( data_obj.err_code == 0  )
+	if( data_obj.err_code == 0	)
 	{
 					
 	}
