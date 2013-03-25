@@ -157,5 +157,3 @@ function close_db( $db = NULL )
 	unset( $GLOBALS['LP_DB'] );
 	mysql_close( $db );
 }
-
-?>
