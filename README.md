@@ -1,7 +1,5 @@
 # LAZYPHP简介
 
-# LAZYPHP简介
-
 ![LazyPHP Logo](static/image/lazyphplogowithname.256.png?raw=true)
 
 LazyPHP（以下简称LP）是一个轻框架.
