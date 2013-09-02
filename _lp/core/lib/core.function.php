@@ -1,5 +1,10 @@
 <?php
 
+function lp_version()
+{
+	return '3.1.0';
+}
+
 function transcribe($aList, $aIsTopLevel = true) 
 {
    $gpcList = array();
@@ -53,6 +58,54 @@ function u( $str )
 	return urlencode( $str );
 }
 
+function uid()
+{
+	return intval($_SESSION['uid']);
+}
+
+function uname()
+{
+	return t($_SESSION['uname']);
+}
+
+
+function wintval( $string )
+{
+	$array = str_split( $string );
+	$ret = '';
+	foreach( $array as $v )
+	{
+		if( is_numeric( $v ) ) $ret .= intval( $v );
+	}
+	
+	return $ret;
+}
+
+function forward( $url )
+{
+	header( "Location: " . $url );
+}
+
+function jsforword( $url )
+{
+	return '<script>location="' . $url . '"</script>';
+}
+
+function image( $filename )
+{
+	return 'static/image/' . $filename;
+}
+
+function css( $filename )
+{
+	return 'static/css/' . $filename;
+}
+
+function js( $filename )
+{
+	return 'static/script/' . $filename;
+}
+
 // render functiones
 function render( $data = NULL , $layout = NULL , $sharp = 'default' )
 {
@@ -92,6 +145,17 @@ function render( $data = NULL , $layout = NULL , $sharp = 'default' )
 	}
 }
 
+function render_html( $data , $tpl )
+{
+	ob_start();
+	extract($data);
+	require( $tpl );
+	$content = ob_get_contents();
+	ob_end_clean();
+	return $content;
+	// 
+}
+
 function ajax_echo( $info )
 {
 	if( !headers_sent() )
@@ -120,10 +184,23 @@ function info_page( $info , $title = '系统消息' )
 	
 }
 
-function is_ajax_request()
+function smart_box( $info )
 {
-	$headers = apache_request_headers();
-	return (isset( $headers['X-Requested-With'] ) && ( $headers['X-Requested-With'] == 'XMLHttpRequest' )) || (isset( $headers['x-requested-with'] ) && ($headers['x-requested-with'] == 'XMLHttpRequest' ));
+	if( is_json_request() )
+	{
+		$array = array();
+		$array['error_code'] = intval(20001);
+		$array['error_message'] = $info;
+		return ajax_echo( json_encode( $array ));
+	}
+	elseif( is_ajax_request() ) 
+	{
+		return ajax_echo( $info );
+	}
+	else
+	{
+		return info_page( $info );
+	}
 }
 
 if (!function_exists('apache_request_headers')) 
@@ -145,7 +222,29 @@ if (!function_exists('apache_request_headers'))
        
 	   return $out; 
    } 
-} 
+}
+
+
+function is_ajax_request()
+{
+	$headers = apache_request_headers();
+	return (isset( $headers['X-Requested-With'] ) && ( $headers['X-Requested-With'] == 'XMLHttpRequest' )) || (isset( $headers['x-requested-with'] ) && ($headers['x-requested-with'] == 'XMLHttpRequest' ));
+}
+
+function clean_header( $header )
+{
+	$header = strtolower( $header );
+	$header = trim(reset( explode( ';' , $header ) ));
+	return $header;
+}
+
+function is_json_request()
+{
+	$headers = apache_request_headers();
+	return (isset( $headers['Content-Type'] ) && ( clean_header($headers['Content-Type']) == 'application/json' ));
+}
+
+
 
 function is_mobile_request()
 {
@@ -223,20 +322,32 @@ function load( $file_path )
 // ===========================================
 // load db functions
 // ===========================================
-if( defined('SAE_APPNAME') )
-	include_once( CROOT .  'lib/db.sae.function.php' );
-else
-	include_once( CROOT .  'lib/db.function.php' );
 
-if (!function_exists('_'))
+if( function_exists('mysqli_connect') )
+	$dbfile_postfix = '.mysqli.function.php';
+else
+	$dbfile_postfix = '.function.php';
+
+if( defined('SAE_APPNAME') )
+	include_once( CROOT .  'lib/db.sae'. $dbfile_postfix );
+else
+	include_once( CROOT .  'lib/db' . $dbfile_postfix );
+
+// i18n 
+if (!function_exists('__'))
 {
-	function _( $string , $data = null )
+	function __( $string , $data = null )
 	{
 		if( !isset($GLOBALS['i18n']) )
 		{
 			$c = c('default_language');
-			if( strlen($c) < 1 ) $c = 'zh_cn';
-			
+			if( strlen($c) < 1 ) $c = 'zh_cn';	
+		}
+		else
+			$c = z(t($GLOBALS['i18n']));
+
+		if( !isset(  $GLOBALS['language'][$c] ) )
+		{
 			$lang_file = AROOT . 'local' . DS . basename($c) . '.lang.php';
 			if( file_exists( $lang_file ) )
 			{
@@ -244,12 +355,9 @@ if (!function_exists('_'))
 				$GLOBALS['i18n'] = $c;
 			}
 			else
-				$GLOBALS['i18n'] = 'zh_cn';
-			
-			
+			$GLOBALS['i18n'] = 'zh_cn';
 		}
 		
-		//print_r( $GLOBALS['language'][$GLOBALS['i18n']] );
 		
 		
 		
@@ -268,6 +376,152 @@ if (!function_exists('_'))
 			
 	}
 } 	
+
+// **************************************************************
+// * Plugins & hooks
+// ************************************************************** 
+function add_filter( $tag , $function_to_add , $priority = 10 , $accepted_args_num = 1 )
+{
+    return add_hook( $tag , $function_to_add , $priority , $accepted_args_num );
+}
+
+function add_action( $tag , $function_to_add , $priority = 10 , $accepted_args_num = 1 )
+{
+    return add_hook( $tag , $function_to_add , $priority , $accepted_args_num );
+}
+
+function add_hook( $tag , $function_to_add , $priority = 10 , $accepted_args_num = 1 )
+{
+    $tag = strtoupper($tag);
+    $idx = build_hook_id( $tag , $function_to_add , $priority );
+    $GLOBALS['TTHOOK'][$tag][$priority][$idx] = array( 'function' => $function_to_add , 'args_num' => $accepted_args_num );
+}
+
+function do_action( $tag , $value = null )
+{
+    return apply_hook( $tag , $value );
+}
+
+function apply_filter( $tag , $value = null )
+{
+    return apply_hook( $tag , $value );
+}
+
+
+
+function apply_hook( $tag , $value )
+{
+    $tag = strtoupper($tag);
+    if( $hooks  = has_hook( $tag ) )
+    {
+        ksort( $hooks );
+        $args = func_get_args();
+        reset( $hooks );
+
+        do
+        {
+            foreach( (array) current( $hooks ) as $hook )
+            {
+                if( !is_null($hook['function']) )
+                {
+                    $args[1] = $value;
+                    $value = call_user_func_array( $hook['function'] , array_slice($args, 1, (int) $hook['args_num']));
+                }
+            }
+        }while( next( $hooks ) !== false );
+
+    }
+
+    return $value;
+}
+
+function has_hook( $tag , $priority = null )
+{
+    $tag = strtoupper($tag);
+    if( is_null($priority) ) return isset( $GLOBALS['TTHOOK'][$tag] )? $GLOBALS['TTHOOK'][$tag]:false;
+    else return isset( $GLOBALS['TTHOOK'][$tag][$priority] )? $GLOBALS['TTHOOK'][$tag][$priority]:false;
+}
+
+function remove_hook( $tag , $priority = null )
+{
+    $tag = strtoupper($tag);
+    if( is_null($priority) ) unset( $GLOBALS['TTHOOK'][$tag] );
+    else unset( $GLOBALS['TTHOOK'][$tag][$priority] );
+}
+// This function is based on wordpress  
+// from  https://raw.github.com/WordPress/WordPress/master/wp-includes/plugin.php
+// requere php5.2+
+
+function build_hook_id( $tag , $function ) 
+{
+    if ( is_string($function) )
+        return $function;
+
+    if ( is_object($function) ) 
+    {
+        // Closures are currently implemented as objects
+        $function = array( $function, '' );
+    }
+    else
+    {
+        $function = (array) $function;
+    }
+
+    if (is_object($function[0]) ) 
+    {
+        // Object Class Calling
+        if ( function_exists('spl_object_hash') ) 
+        {
+            return spl_object_hash($function[0]) . $function[1];
+        }
+        else
+        {
+            return substr( serialize($function[0]) , 0 , 15 ). $function[1];
+        }
+
+    }
+    elseif( is_string($function[0]) )
+    {
+        // Static Calling
+        return $function[0].$function[1];
+    }
+}
+
+
+
+// input check
+function input_check( $value , $filter_func , $info = null )
+{
+	/*$tf = function( $filter_func , $value )
+	{
+		return ;
+	};*/
+
+	if( ($ret = call_user_func( $filter_func , $value )) !== false )
+	{
+		return $ret;
+	}
+	else
+	{
+		smart_box($info);
+		exit;
+	}
+}
+
+function not_empty( $value )
+{
+	if( strlen( $value ) < 1 ) return false;
+	else return $value ;
+}	
+
+function is_mail( $value )
+{
+	if( filter_var($value, FILTER_VALIDATE_EMAIL) === false ) 
+		return false;
+	else
+		return $value;
+}
+
 
 
 

@@ -31,6 +31,8 @@ $test = new TestSuite('LazyPHP Test Center');
 foreach( glob( AROOT . 'test'. DS .'phptest' . DS . '*.test.php' ) as $f )
 	$test->addFile( $f );
 
+echo date("Y-m-d H:i:s");
+
 
 //$test->run(new HtmlReporter('UTF-8'));
 unset( $test );

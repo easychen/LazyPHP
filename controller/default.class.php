@@ -34,13 +34,13 @@ class defaultController extends appController
 			$data['data'] = array( '2' , '4' , '6' , '8' ); 
 		}
 		
-		render( $data , 'rest' );
+		return render( $data , 'rest' );
 	}
 	
 	function mobile()
 	{
 		$data['title'] = $data['top_title'] = 'JQMobi';
-		render( $data , 'mobile' );
+		return render( $data , 'mobile' );
 	}
 	
 	function ajax_load()
@@ -70,6 +70,16 @@ class defaultController extends appController
 	{
 		db();
 		echo $sql = prepare( "SELECT * FROM `user` WHERE `name` = ?s AND `uid` = ?i AND `level` = ?s LIMIT 1" , array( "Easy'" , '-1', '9.56' ) );	
+	}
+
+	function binding
+	( 
+		$c1 = ':is_mail|请输入正确的email地址' , 
+		$b1 = ':not_empty|B1不能为空',
+		$a1 = ':intval|setback'
+	)
+	{
+		echo $c1 . '-' . $b1 . "-" . $a1;
 	}
 	
 	

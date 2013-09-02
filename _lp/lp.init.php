@@ -46,7 +46,57 @@ $o = new $class_name;
 if( !method_exists( $o , $a ) ) die('Can\'t find method - '   . $a . ' ');
 
 
-if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE && @ini_get("zlib.output_compression")) ob_start("ob_gzhandler");
-call_user_func( array( $o , $a ) );
+// args binding
+// strongly inspired by luofei ( http://weibo.com/luofei614 )
+$method =   new ReflectionMethod($o, $a);
+$params =  $method->getParameters();
+
+$args=array();
+
+foreach($params as $param)
+{
+   $name=$param->getName();
+   
+   if( $param->isDefaultValueAvailable() )
+   {
+   		// get default value
+   		$dval = $param->getDefaultValue();
+   		$reg = '/\:(.+?)\|(.*)$/is';
+
+   		// is filter
+   		if( preg_match( $reg , $dval , $out ) )
+   		{
+   			$fliter_func = t($out[1]);
+   			$info = t($out[2]);
+   			$ret = input_check( v($name) , $fliter_func , $info );
+   			$args[$name] = $ret;
+   		}
+   		else
+   		{
+   			// not filter so set as default value
+   			if( isset($_REQUEST[$name]) )
+   			{
+   				$args[$name] =  v($name);
+
+		       if(is_string($args[$name]))
+		           $args[$name]=t($args[$name]);
+		   }
+		   else
+		   {
+		   		$args[$name] = $dval;
+		   }
+   		}
+
+   }
+
+}
+
+$method->invokeArgs($o,$args);
+
+
+//if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE && @ini_get("zlib.output_compression")) ob_start("ob_gzhandler");
+//call_user_func( array( $o , $a ) );
+
+
 
 

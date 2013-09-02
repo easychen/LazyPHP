@@ -52,6 +52,7 @@
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+	z-index: 9999;
 }
 
 #lp_pop_container
@@ -63,7 +64,7 @@
 	background: white; /* fallback for older/unsupporting browsers */  
 	background: -moz-linear-gradient(top, #eee, white 8%);   
 	background: -webkit-gradient(linear, 0 0, 0 8%, from(#eee), to(white));   
-	
+	z-index: 9999;
 }
 
 .close

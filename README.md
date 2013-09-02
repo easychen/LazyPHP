@@ -1,5 +1,8 @@
 # LAZYPHP简介
 
+![LazyPHP Logo](http://lazyphp31.sinaapp.com/static/image/lazyphplogowithname.256.png)
+
+
 LazyPHP（以下简称LP）是一个轻框架.
 
 之所以开发这么一个框架，是因为其他框架给的太多。在高压力的情况下，ORM和盘根错节的对象树反而将简单的页面请求处理复杂化，在调试和性能上带来反面效果。
@@ -7,11 +10,13 @@ LazyPHP（以下简称LP）是一个轻框架.
 LP采用函数式接口封装对象，对内通过面向对象实现代码重用，对外则提供简明扼要的操作函数。开发者甚至不用理解面向对象就能很好的使用，这让一些初级程序员很容易就开发出强壮的应用。
 
 在数据库等模块的加载上，LP采用LazyLoad方式，并用$GLOBALS实现全局单件，在方便和高效之间找到了一个平衡点。这也是LP框架名字中Lazy的来源。
+
 LP在新浪大量使用已经将近3年，每天承载的请求达千万级别。由于LP易读易学，使用LP的开发者之间沟通非常容易，而新同事也可以很快融入进来。
 
 LP3是LP最新的版本，最主要的调整是重新定义了Layout规则，以应对日益增多的Ajax，Mobile和Rest请求。同样是由于这个原因，LP3和之前的版本不兼容，我们建议大家在新项目中采用LP3。
 
 # LP3 实例
+
 基于LP3的全平台开源项目 团队效率工具 TeamToy  http://teamtoy.net/
 
 # LP3简明教程
@@ -21,9 +26,10 @@ LP是一个轻框架。它只是打算帮你处理掉每个Web应用都需要重
 LP只包含一个FrontController+Layout系统+20个常用函数。你只需要花上10分钟了解这些东西，就能完全得掌握LP。
 
 ## FRONTCONTROLLER
+
 FrontController（以下简称FC）翻译过来叫前端控制器，在LP中，所有的动态请求（不包括静态文件）都会经过FC。使用FC的好处是可以统一控制全部请求，举例而言，你只需要在FC中添加几行代码，就可以精确控制哪些controller和action不可以访问。
 
-LP3的FC你可以看成就是ROOT/index.php(实际上分发逻辑在_lp/index.php),所有的请求都在这里处理。不管你是用户登录还是浏览文章，在LP上用户访问的页面都是index.php。
+LP3的FC你可以看成就是ROOT/index.php(实际上分发逻辑在_lp/lp.init.php),所有的请求都在这里处理。不管你是用户登录还是浏览文章，在LP上用户访问的页面都是index.php。
 
 FC根据Controller和Action对请求进行分组，并调用对应的模块来进行处理。如何定义Controller和Action？最简单的办法是把一个数据表对应到一个Controller，而对这个数据表的相关操作自然就成为了Action。
 
@@ -47,8 +53,8 @@ $c = $_REQUEST['c'] ;
 $a = $_REQUEST['a'] ;
 
 // controller文件名和Class名
-$cont_file = AROOT . ‘controller/’ . $c . ‘/’ . $a . ‘.class.php’;
-$class_name =$c .’Controller’ ;
+$cont_file = AROOT . 'controller/' . $c . '/' . $a . '.class.php';
+$class_name =$c .'Controller' ;
 
 // 载入文件
 require_once( $cont_file );
@@ -72,13 +78,14 @@ class defaultController extends appController
 
 	function index()
 	{
-		$data['title'] = $data['top_title'] = ‘首页’;
+		$data['title'] = $data['top_title'] = '首页';
 		render( $data );
 	}
 }
 ```
 
 ## MVC和LAYOUT
+
 LP是遵循MVC模式的，它的业务逻辑和显示逻辑是完全分离的。Controller处理了业务逻辑，我们使用模板来处理显示逻辑。
 
 LP所有的模板都被放在AROOT.view下边，通过在Controller中使用Render函数来渲染模板。
@@ -86,9 +93,9 @@ LP所有的模板都被放在AROOT.view下边，通过在Controller中使用Rend
 以下是Render函数的伪代码：
 
 ```php
-function render( $data = NULL , $layout = NULL , $sharp = ‘default’ )
+function render( $data = NULL , $layout = NULL , $sharp = 'default' )
 {
-$layout_file = AROOT . ‘view/layout/’ . $layout . ‘/’ . $sharp . ‘.tpl.html’;
+$layout_file = AROOT . 'view/layout/' . $layout . '/' . $sharp . '.tpl.html';
 @extract( $data );
 require( $layout_file );
 }
@@ -115,6 +122,7 @@ require( $layout_file );
 这样很OK，但是当我们有10个模板要处理的时候，你会发现每个模板都要去include header和footer。而在这些模板中，header和footer其实是不变的，变的是中间的部分。
 
 于是我们为这些相同模板建立一个通用的模板文件，叫做sharpA.tpl.html，在styleA中我们指定好header和footer，然后sharpA根据FC接收到的C和A变量（还记得吧）去加载对应子目录下模板。这样我们只需要创建C和A对应的模板就可以了。下边是一个典型的sharp模板。
+
 <pre>
 &lt;html&gt;
 &lt;body&gt;
@@ -155,9 +163,9 @@ function show()
 
 $uid =  intval($_REQUEST['uid']);
 
-if( $uid < 1 ) return info_page(‘错误的uid’);
+if( $uid < 1 ) return info_page('错误的uid');
 
-$data['user'] = get_line( “SELECT * FROM `user` WHERE `uid` = ‘” . $uid . “‘ LIMIT 1″ );
+$data['user'] = get_line( "SELECT * FROM `user` WHERE `uid` = '" . $uid . "' LIMIT 1″ );
 
 render( $data );
 
@@ -176,7 +184,7 @@ function get_user_info_by_id( $uid )
 
 {
 
-return get_line( “SELECT `name` ,`email` , `bod` FROM `user` WHERE `uid` = ” . intval($uid) . ” LIMIT 1 ” )
+return get_line( "SELECT `name` ,`email` , `bod` FROM `user` WHERE `uid` = " . intval($uid) . " LIMIT 1 " )
 
 }
 ```
@@ -190,7 +198,7 @@ function show()
 
 $uid =  intval($_REQUEST['uid']);
 
-if( $uid < 1 ) return info_page(‘错误的uid’);
+if( $uid < 1 ) return info_page('错误的uid');
 
 $data['user'] = get_user_info_by_id(  $uid  );
 
@@ -202,6 +210,7 @@ render( $data );
 这样再其他的Action，比如User/settings 中，我们可以通过get_user_info_by_id 函数重用代码。通过函数封装重复SQL还有一个好处是方便对SQL进行统一处理，加手工Cache就是一个经常能遇到的需求。
 
 ## 常用函数
+
 LP3中的函数主要有3类，迅捷函数，功能函数和数据库函数，一共20个左右。
 
 ### 迅捷函数
@@ -215,16 +224,41 @@ function z( $str ) // strip_tags
 function g( $str ) // 取得 $GLOBALS[$str] 的数据
 function t( $str ) // trim
 function u( $str ) // urlencode
+
+// 以下为3.1添加
+function uid() // 返回$_SESSION['uid']的值
+function uname() // 返回$_SESSION['uname']的值
+
+function image( $img_file_name ) // 生成LP static 目录下图片对应的URL
+function css( $css_file_name ) // 生成LP static 目录下CSS对应的URL
+function js( $js_file_name ) // 生成LP static 目录下JS对应的URL
+ 
 </pre>
 
 ### 功能性函数
 
 <pre>
-function render( $data = NULL , $layout = NULL , $style = ‘default’ ) // Layout
+function render( $data = NULL , $layout = NULL , $style = 'default' ) // Layout
 function info_page( $info ) // 系统提示信息
 function ajax_echo( $info ) // 输出提示信息，包含永不过期的header
 function uses( $file ); // 载入lib目录下的文件
 </pre>
+
+// 以下为3.1添加
+<pre>
+function wintval( $weiboid ); // weibo ID过滤函数，超过了intval支持的长度，故用此函数
+function render_html( $data , $tpl_path ) // 渲染一个layout并将html返回
+</pre>
+
+// Hook相关函数
+// 使用Hook 可以将原本分散到各处的代码放到一个php文件中，移除功能只需要取消include该文件即可
+// 具体的使用例子可参考[TeamToy完全手册中的插件开发部分](http://ftqq.com/2013/01/teamtoy-manual/)
+<pre>
+function add_hook( $tag , $function_to_add ) // 添加Hook
+function apply_hook( $tag , $value ) // 调用Hook
+function has_hook( $tag  ) // 判断是否有Hook 
+</pre>
+
 
 ### 数据库函数
 
@@ -255,30 +289,100 @@ LP将应用配置信息保存在AROOT/config/app.config.php下，使用$GLOBALS[
 这个函数是LP3新引入的，主要是希望减少SQL注入的问题。使用方式如下：
 
 <pre>
-echo $sql = prepare( “SELECT * FROM `user` WHERE `name` = ?s AND `uid` = ?i AND `level` = ?s LIMIT 1″ , array( “Easy’” , ‘-1′, ’9.56′ ) );
+echo $sql = prepare( "SELECT * FROM `user` WHERE `name` = ?s AND `uid` = ?i AND `level` = ?s LIMIT 1″ , array( "Easy'" , '-1′, '9.56′ ) );
 </pre>
 
 输出结果为：
 
 <pre>
-SELECT * FROM `user` WHERE `name` = ‘Easy\” AND `uid` = ‘-1′ AND `level` = ’9.56′ LIMIT 1
+SELECT * FROM `user` WHERE `name` = 'Easy\" AND `uid` = '-1′ AND `level` = '9.56′ LIMIT 1
 </pre>
 
 使用prepare函数时要注意：SQL必须使用双引号，【?i】表示整数，【?s】表示整数以外的其他值。prepare会无例外的mysql_real_escape_string，然后在两边加上单引号。
 
 ## CSS，JAVASCRIPT和AJAX
-LP3采用YUI3的CSS框架以处理在不同浏览器上CSS兼容性，其中开发者用得最多的应该是grid系统，这里是它的详细说明。
 
-JavaScript库上，LP3开始换为JQuery。这里是JQuery API的参考手册。
+LP3采用BootStrap这个流行的前端框架，LP3.1起，开始使用BootStrap3，[你可以从这里看到它的详细介绍](http://twitter.github.com/bootstrap/)。
+
+JavaScript库上，LP3换为JQuery2，使用方式为直接引用[SAE的CDN资源](http://lib.sinaapp.com)，你可以通过更换Layout中的JQuery URL来随时切换到其他版本。[这里是JQuery API的参考手册](http://api.jquery.com/)。
 
 为了方便不熟悉的同学也能使用好Ajax，LP3自己实现了Ajax传输数据的JS函数。这些函数都放在AROOT/static/script/app.js中。
 
 ```javascript
-$(‘#标签ID’).load(‘URL’);  // 是由JQuery自身实现的，可以方便的无刷新载入页面。
+$('#标签ID').load('URL');  // 是由JQuery自身实现的，可以方便的无刷新载入页面。
 
-send_form_in( ‘FROMID’ ); // 将form表单中的数据通过Ajax提交（file类型除外），并将服务器返回的HTML显示在Form表单顶部
+send_form_in( 'FROMID' ); // 将form表单中的数据通过Ajax提交（file类型除外），并将服务器返回的HTML显示在Form表单顶部
 
-send_form_pop(‘FROMID’); //  将form表单中的数据通过Ajax提交（file类型除外），并将服务器返回的HTML显示在浮动图层中
+send_form_pop('FROMID'); //  将form表单中的数据通过Ajax提交（file类型除外），并将服务器返回的HTML显示在浮动图层中
 ```
+
+## 3.1 新增特性
+
+3.1以后用到了一些PHP的高级语法特性，请在PHP5.3以上版本使用。
+
+### 启用MySQLi扩展
+
+由于PHP高版本已经开始对MySQL模块抛出警告，这次换用了MySQLi模块，当系统存在mysqli_connect函数时会优先启用。
+
+### 添加参数绑定
+
+在实践中我们大量的检查输入参数：
+
+```
+$name = t(v('name'));
+if( !not_empty($name) ) return info_page('姓名不能为空');
+```
+
+
+为了避免频繁的书写，利用PHP的反射机制进行了输入参数绑定。通过对controller的方法指定参数和默认值的方式来指定检查项和错误提示信息。
+
+以controller/default.class.php中的binding方法为例
+
+```
+function binding
+	( 
+		$c1 = ':is_mail|请输入正确的email地址' , 
+		$b1 = ':not_empty|B1不能为空',
+		$a1 = ':intval|setback'
+	)
+	{
+		echo $c1 . '-' . $b1 . "-" . $a1;
+	}
+```
+
+以上代码 指定了binding这个方法，绑定了3个参数：a1、b1、c1。这三个参数都不再需要用v函数取得，而是在函数内直接可用。
+
+同时，通过为参数指定特殊格式的默认值，可以为输入的参数指定检查函数和提示信息。LP会将v('c1')的值传给is_mail，并判断返回值，当返回值为false的时候，会通过info_page显示后边的提示信息“请输入正确的email地址”。
+
+如果要启用输入过滤，请使用以下格式的默认值
+
+```
+:[过滤函数]|[过滤函数返回false时显示的提示信息，可以为空]
+```
+其中的过滤函数可以自己定义，也可以使用系统函数，如intval。
+
+### 添加Hook机制
+
+Hook机制是参考WordPress，并在TeamToy中大量应用的。3.1将相关函数引入，方便大家设计和开发插件式应用。
+Hook机制可以将一部分功能的代码全部集中到一个文件中。添加和去除这部分功能只需要加载和去掉这个文件的载入即可。
+
+一般我们会在将来可能扩展的地方种下Hook，可以是在模板中，也可以是在代码中。比如我们觉得登陆框以后可能会增加社会化登入，那么我们就可以在输入框的模板处，通过 apply_hook，种下钩子的入口，比如叫 "LP_SOCIAL_LOGIN"。
+
+当程序运行到这里时，就会去检查LP_SOCIAL_LOGIN上是否有Hook，如果有的化，就会执行对应的代码（调用对应的回调函数）。
+
+现在当然是没有的。我们再创建一个插件文件，如weibo_login.php，在这个文件中，add_hook( 'LP_SOCIAL_LOGIN' , call_back_function )。只要LP include了这个文件，那么在登陆的模板处，就会出现这个回调函数输出的内容。
+
+Hook的应用非常广泛，可参考[TeamToy中的具体使用方法](http://ftqq.com/2013/01/teamtoy-manual/)。
+
+
+###  整合Tonic 
+
+为了增强对REST接口相关功能的支持，3.1开始内置了[Tonic](https://github.com/peej/tonic)库。
+如果需要试用Tonic，请参考REWRITE.txt中的配置对URL进行重写。
+然后在 resource目录下，extend resource class，写入对应的方法即可。
+为了进一步提升Tonic的性能，我们开发了MC缓存，如果需要启用的话，可以去掉 _lp/tn.init.php 第43行的注释
+
+更多的信息请参考 [Tonic官网](http://peej.github.io/tonic/)
+
 
 好了，这里就是关于LP3 的一切了，希望LP3能让你更快的完成工作。

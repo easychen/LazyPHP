@@ -1,0 +1,13 @@
+====== For SAE =====================
+in config.yaml
+
+name: {appname}
+version: {appversion}
+handle:
+	- rewrite: if ( !is_file() && path ~ "/api/(.+)/(.*)") goto "/api.php?c=$1"
+
+====== FOR Apache =====================
+.htaccess
+
+RewriteEngine On
+RewriteRule ^/api/(.+)/(.+) /api.php?c=$1 [L]

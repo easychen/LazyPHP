@@ -43,14 +43,57 @@ class TestOfFastfunction extends UnitTestCase
 	{
 		$this->assertEqual( u('?c=user&a=login') , '%3Fc%3Duser%26a%3Dlogin' );
 	}
+
+	public function test_uid()
+	{
+		@session_start();
+		$_SESSION['uid'] = 23;
+		$this->assertEqual( uid() , 23 );
+	}
+
+	public function test_uname()
+	{
+		@session_start();
+		$_SESSION['uname'] = 'easychen';
+		$this->assertEqual( uname() , 'easychen' );
+	}
 	
 	public function test_text()
 	{
-		$this->assertEqual( _('login') , '登入' );
-		$this->assertEqual( _('hello%s' , 'Aoi') , '你好Aoi' );
-		$this->assertEqual( _('Not exists' ) , 'Not exists' );
-		$this->assertEqual( _('Not exists %s' , 'Money'  ) , 'Not exists Money' );
+		$this->assertEqual( __('login') , '登入' );
+		$this->assertEqual( __('hello%s' , 'Aoi') , '你好Aoi' );
+		$this->assertEqual( __('Not exists' ) , 'Not exists' );
+		$this->assertEqual( __('Not exists %s' , 'Money'  ) , 'Not exists Money' );
 		
+	}
+
+	public function test_resource_helpers()
+	{
+		$this->assertEqual( image('go.png') , 'static/image/go.png' );
+		$this->assertEqual( css('go.css') , 'static/css/go.css' );
+		$this->assertEqual( js('go.js') , 'static/script/go.js' );
+	}
+
+	public function test_wintval()
+	{
+		$this->assertEqual( wintval('r23463564d35f4g4h35') , '23463564354435' );
+	}
+
+	public function  test_hooks()
+	{
+		add_action('LP_TEST_HOOK', function( $data )
+		{
+			return strtoupper($data);
+		} );
+
+		$this->assertTrue( has_hook('LP_TEST_HOOK') );
+
+		$this->assertEqual( do_action( 'LP_TEST_HOOK' , 'abc' ) , 'ABC' );
+
+		remove_hook('LP_TEST_HOOK');
+
+		$this->assertFalse( has_hook('LP_TEST_HOOK') );  
+
 	}
 	
 	// render

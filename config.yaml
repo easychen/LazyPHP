@@ -1,0 +1,4 @@
+name: lazyphp31
+version: 1
+handle:
+	- rewrite: if ( !is_file() && path ~ "/api/(.+)/(.*)") goto "/api.php?c=$1"
