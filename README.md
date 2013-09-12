@@ -23,7 +23,7 @@ LP只包含一个FrontController+Layout系统+20个常用函数。你只需要�
 ## FRONTCONTROLLER
 FrontController（以下简称FC）翻译过来叫前端控制器，在LP中，所有的动态请求（不包括静态文件）都会经过FC。使用FC的好处是可以统一控制全部请求，举例而言，你只需要在FC中添加几行代码，就可以精确控制哪些controller和action不可以访问。
 
-LP3的FC你可以看成就是ROOT/index.php(实际上分发逻辑在_lp/index.php),所有的请求都在这里处理。不管你是用户登录还是浏览文章，在LP上用户访问的页面都是index.php。
+LP3的FC你可以看成就是ROOT/index.php(实际上分发逻辑在_lp/lp.init.php),所有的请求都在这里处理。不管你是用户登录还是浏览文章，在LP上用户访问的页面都是index.php。
 
 FC根据Controller和Action对请求进行分组，并调用对应的模块来进行处理。如何定义Controller和Action？最简单的办法是把一个数据表对应到一个Controller，而对这个数据表的相关操作自然就成为了Action。
 
@@ -267,9 +267,10 @@ SELECT * FROM `user` WHERE `name` = ‘Easy\” AND `uid` = ‘-1′ AND `level`
 使用prepare函数时要注意：SQL必须使用双引号，【?i】表示整数，【?s】表示整数以外的其他值。prepare会无例外的mysql_real_escape_string，然后在两边加上单引号。
 
 ## CSS，JAVASCRIPT和AJAX
-LP3采用YUI3的CSS框架以处理在不同浏览器上CSS兼容性，其中开发者用得最多的应该是grid系统，这里是它的详细说明。
 
-JavaScript库上，LP3开始换为JQuery。这里是JQuery API的参考手册。
+LP3采用BootStrap这个流行的前端框架，[你可以从这里看到它的详细介绍](http://twitter.github.com/bootstrap/)。
+
+JavaScript库上，LP3开始换为JQuery。[这里是JQuery API的参考手册](http://api.jquery.com/)。
 
 为了方便不熟悉的同学也能使用好Ajax，LP3自己实现了Ajax传输数据的JS函数。这些函数都放在AROOT/static/script/app.js中。
 
