@@ -1,6 +1,6 @@
 <?php
 
-if( !defined('IN') ) die('bad request');
+defined('IN') || die('bad request');
 
 
 class coreController 
