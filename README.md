@@ -58,7 +58,7 @@ $o = new $class_name;
 call_user_func( array( $o , $a ) );
 ```
 
-实际上编写应用的过程其实就是不断的添加Controller和Action并把它实现。
+实际上，编写应用的过程就是不断的添加Controller和Action并把它实现。
 
 下边是一个Controller Class的样子：
 
@@ -199,7 +199,7 @@ render( $data );
 }
 ```
 
-这样再其他的Action，比如User/settings 中，我们可以通过get_user_info_by_id 函数重用代码。通过函数封装重复SQL还有一个好处是方便对SQL进行统一处理，加手工Cache就是一个经常能遇到的需求。
+这样在其他的Action，比如User/settings 中，我们可以通过get_user_info_by_id 函数重用代码。通过函数封装重复SQL还有一个好处是方便对SQL进行统一处理，加手工Cache就是一个经常能遇到的需求。
 
 ## 常用函数
 LP3中的函数主要有3类，迅捷函数，功能函数和数据库函数，一共20个左右。
