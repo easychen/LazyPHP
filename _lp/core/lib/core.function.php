@@ -175,7 +175,7 @@ function is_mobile_request()
                         'qwap','sage','sams','sany','sch-','sec-','send','seri','sgh-','shar',
                         'sie-','siem','smal','smar','sony','sph-','symb','t-mo','teli','tim-',
                         'tosh','tsm-','upg1','upsi','vk-v','voda','wap-','wapa','wapi','wapp',
-                        'wapr','webc','winw','winw','xda','xda-'
+                        'wapr','webc','winw','xda','xda-'
                         );
  
     if(in_array($mobile_ua, $mobile_agents))
