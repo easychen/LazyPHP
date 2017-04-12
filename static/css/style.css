@@ -60,9 +60,9 @@
 	min-height:200px;
 	height:100%;
 	
-	background: white; /* fallback for older/unsupporting browsers */  
-	background: -moz-linear-gradient(top, #eee, white 8%);   
-	background: -webkit-gradient(linear, 0 0, 0 8%, from(#eee), to(white));   
+	background: white; /* fallback for older/unsupporting browsers */	
+	background: -moz-linear-gradient(top, #eee, white 8%);	 
+	background: -webkit-gradient(linear, 0 0, 0 8%, from(#eee), to(white));	 
 	
 }
 

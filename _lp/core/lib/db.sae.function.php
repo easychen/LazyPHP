@@ -2,12 +2,12 @@
 
 function db_read( $host = null , $port = null , $user = null , $password = null , $db_name = null )
 {
-	$db_key = MD5( 'read-' . $host .'-'. $port .'-'. $user .'-'. $password .'-'. $db_name  );
+	$db_key = MD5( 'read-' . $host .'-'. $port .'-'. $user .'-'. $password .'-'. $db_name	);
 	
 	if( !isset( $GLOBALS['LP_'.$db_key] ) )
 	{
-		include_once( AROOT .  'config/db.config.php' );
-		//include_once( CROOT .  'lib/db.function.php' );
+		include_once( AROOT .	'config/db.config.php' );
+		//include_once( CROOT .	'lib/db.function.php' );
 		
 		$db_config = $GLOBALS['config']['db'];
 		
@@ -45,12 +45,12 @@ function db_read( $host = null , $port = null , $user = null , $password = null 
 // db functions
 function db( $host = null , $port = null , $user = null , $password = null , $db_name = null )
 {
-	$db_key = MD5( $host .'-'. $port .'-'. $user .'-'. $password .'-'. $db_name  );
+	$db_key = MD5( $host .'-'. $port .'-'. $user .'-'. $password .'-'. $db_name	);
 	
 	if( !isset( $GLOBALS['LP_'.$db_key] ) )
 	{
-		include_once( AROOT .  'config/db.config.php' );
-		//include_once( CROOT .  'lib/db.function.php' );
+		include_once( AROOT .	'config/db.config.php' );
+		//include_once( CROOT .	'lib/db.function.php' );
 		
 		$db_config = $GLOBALS['config']['db'];
 		
@@ -87,7 +87,7 @@ function db( $host = null , $port = null , $user = null , $password = null , $db
 function s( $str , $db = NULL )
 {
 	if( $db == NULL ) $db = db();
-	return   mysql_real_escape_string( $str , $db )  ;
+	return	 mysql_real_escape_string( $str , $db )	;
 	
 }
 
@@ -99,7 +99,7 @@ function prepare( $sql , $array )
 		$array[$k] = s($v );
 	
 	$reg = '/\?([is])/i';
-	$sql = preg_replace_callback( $reg , 'prepair_string' , $sql  );
+	$sql = preg_replace_callback( $reg , 'prepair_string' , $sql	);
 	$count = count( $array );
 	for( $i = 0 ; $i < $count; $i++ )
 	{
@@ -149,7 +149,7 @@ function get_data( $sql , $db = NULL )
 
 function get_line( $sql , $db = NULL )
 {
-	$data = get_data( $sql , $db  );
+	$data = get_data( $sql , $db	);
 	return @reset($data);
 }
 
