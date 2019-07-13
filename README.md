@@ -1,3 +1,5 @@
+⚠️ 此项目已经停止维护，请使用 https://github.com/easychen/lazyphp4
+
 # LAZYPHP简介
 
 LazyPHP（以下简称LP）是一个轻框架.
