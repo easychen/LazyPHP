@@ -1,5 +1,4 @@
 <?php
-
 if( !defined('AROOT') ) die('NO AROOT!');
 if( !defined('DS') ) define( 'DS' , DIRECTORY_SEPARATOR );
 
@@ -9,9 +8,14 @@ define( 'IN' , true );
 define( 'ROOT' , dirname( __FILE__ ) . DS );
 define( 'CROOT' , ROOT . 'core' . DS  );
 
-// define 
+// define
 error_reporting(E_ALL^E_NOTICE);
-ini_set( 'display_errors' , true );
+if (defined('DEBUG') && DEBUG) {
+    ini_set( 'display_errors' , 1 );
+}
+else {
+    ini_set( 'display_errors' , 0 );
+}
 
 include_once( CROOT . 'lib' . DS . 'core.function.php' );
 @include_once( AROOT . 'lib' . DS . 'app.function.php' );
